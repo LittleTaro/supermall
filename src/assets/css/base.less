@@ -1,0 +1,56 @@
+@import "./normalize.css";
+
+// 文字颜色 高亮颜色 背景颜色 字体大小 行高
+@color-text: #666;  
+@color-high-text:#ff5777;
+@color-tint:#ff8198;
+@color-background:#fff;
+@font-size:14px;
+@line-height:1.5;
+
+*,*::before,*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue",Helvetica,"PingFang sc","Hiragino Sans GB","Microsoft YaHei",
+  "微软雅黑",Arial,sans-serif;
+  // 禁止用户选中文本
+  user-select: none;  
+  // 点击链接的时候出现的高亮颜色
+  -webkit-tap-highlight-color: transparent;
+  background: @color-background;
+  color: @color-text;
+  // 一个视口的宽度
+  width: 100vw;
+}
+
+a {
+  color: @color-text;
+  text-decoration: none;
+}
+
+.clearfix::after {
+  content: '';
+  width: 0;
+  height: 0;
+  display: block;
+  clear: both;
+  visibility: hidden;
+}
+
+
+.clearfix {
+// 针对IE6清除浮动 IE6不支持伪类 
+  zoom: 1;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
