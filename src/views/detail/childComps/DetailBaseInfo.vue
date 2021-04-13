@@ -4,7 +4,7 @@
     <div class="price">
       <span class="new-price">{{goods.newPrice}}</span>
       <span class="old-price">{{goods.oldPrice}}</span>
-      <span class="discount" :style="{backgroundColor:goods.discountBgColor}">{{goods.discount}}</span>
+      <span v-if="goods.discount" class="discount" :style="{backgroundColor:goods.discountBgColor}">{{goods.discount}}</span>
     </div>
     <div class="columns">
       <span v-for="(item, index) in goods.columns" :key="index">

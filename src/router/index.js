@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 const Home = () => import('../views/home/Home')
 const Category = () => import('../views/category/Category')
 const Profile = () => import('../views/profile/Profile')
-const Shopcart = () => import('../views/shopcart/Shopcart')
+const ShopCart = () => import('../views/shopcart/ShopCart')
 const Detail = () => import('../views/detail/Detail')
 
 
@@ -32,7 +32,7 @@ const routes = [
   },
   {
     path:'/shopcart',
-    component:Shopcart
+    component:ShopCart
   },
   {
     path:'/detail:iid',
@@ -43,5 +43,10 @@ const router = new VueRouter({
   routes,
   mode: 'history'
 })
+
+const originalPush = VueRouter.prototype.push
+   VueRouter.prototype.push = function push(location) {
+   return originalPush.call(this, location).catch(err => err)
+}
 
 export default router

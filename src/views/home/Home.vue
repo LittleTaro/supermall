@@ -21,7 +21,6 @@
         @tabClick="tabClick" ref="tabControl2"
       ></tab-control>
       <goods-list :goods="showGoods"></goods-list>
-      <h2>首页</h2>
     </scroll>
     <back-top @click.native="topClick" v-show="isShowBackTop"></back-top>
   </div>
@@ -31,7 +30,6 @@
 import NavBar from "components/common/navbar/NavBar.vue";
 import HomeSwiper from "./childComps/HomeSwiper.vue";
 import Scroll from "components/common/scroll/Scroll.vue";
-import BackTop from 'components/content/backTop/BackTop.vue';
 
 import RecommendView from "./childComps/RecommendView.vue";
 import FeatureView from "./childComps/FeatureView.vue";
@@ -39,7 +37,7 @@ import TabControl from "components/content/tabControl/TabControl.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 import GoodsList from "components/content/goods/GoodsList.vue";
-
+import {imgLoadMixin, backTopMixin} from "common/mixin.js"
 
 export default {
   name: "Home",
@@ -51,8 +49,8 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
   },
+  mixins: [imgLoadMixin, backTopMixin],
   data() {
     return {
       banners: [],
@@ -63,11 +61,15 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      isShowBackTop: false,
       TabControlOffsetTop: 0,
       isTabFixed: false,
       saveY: 0,
     };
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    },
   },
   created() {
     // 请求多个数据
@@ -77,40 +79,18 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
-  mounted() {
-    // // 使用防抖函数
-    //  const refresh = this.debounce(this.$refs.scroll.refresh(),500);
-    // // 监听goodsitem中图片加载完成
-     this.$bus.$on('imageItemLoad',() => {
-    //     refresh();
-      this.$refs.scroll && this.$refs.scroll.refresh();
-     });
-     
-  },
-  computed: {
-    showGoods() {
-      return this.goods[this.currentType].list;
-    },
-  },
+  mounted() {  
+  }, 
   activated() { 
     this.$refs.scroll.refresh();
     this.$refs.scroll.scrollTo(0, this.saveY, 0);
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY();
+    this.$bus.$off('imageItemLoad', this.imgLoadListener());
   },
   
   methods: {
-    debounce(func, delay) {
-      let timer = null;
-      return function(...args) {
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(() => {
-          // 让this不指向window
-          func.apply(this, args);
-        },delay)
-      }
-    },
     tabClick(index) {
       switch (index) {
         case 0:
@@ -124,9 +104,6 @@ export default {
       }
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
-    },
-    topClick() {
-      this.$refs.scroll.scrollTo(0, 0, 300);
     },
     contentScroll(position) {  
       // 判断返回顶部按钮是否显示
@@ -150,6 +127,7 @@ export default {
         this.recommends = res.data.recommend.list;
       });
     },
+    
     getHomeGoods(type) {
       const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then((res) => {
@@ -176,8 +154,6 @@ export default {
   position: relative;
   height: 100vh;
 }
-
-
 
 .content {
   overflow: hidden;

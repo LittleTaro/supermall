@@ -25,6 +25,12 @@ export default {
       type: Boolean,
       default: false,
     },
+    // data: {
+    //   type: Array,
+    //   default() {
+    //     return []
+    //   }
+    // }
   },
   mounted() {
     // 创建BScroll对象
@@ -64,6 +70,11 @@ export default {
       return this.scroll? this.scroll.y : 0;
     }
   },
+  // watch: {
+  //   data() {
+  //     setTimeout(this.refresh,20);
+  //   }
+  // }
 };
 </script>
 

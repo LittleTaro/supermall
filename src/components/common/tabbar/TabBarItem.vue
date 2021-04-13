@@ -29,7 +29,7 @@ export default {
   },
   methods:{
     itemClick(){
-      this.$router.replace(this.path) !== -1
+      this.$router.push(this.path) 
     }
   },
   computed:{

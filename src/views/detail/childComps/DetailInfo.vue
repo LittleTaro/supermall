@@ -6,11 +6,12 @@
       <div class="desc">{{detailInfo.desc}}</div>
       <div class="end"></div>
     </div>
-    <div class="detail-image"
+    <div class="detail-image" 
      v-for="(item, index) in detailInfo.detailImage" :key="index">
       <div class="key">
         {{item.key}}
-      </div><img v-for="(item,index) in item.list" alt=""  :key="index" :src="item"></div>
+      </div><img v-for="(item,index) in item.list" alt=""  
+      :key="index" :src="item" @load="detailImgLoad"></div>
   </div>
 </template>
 
@@ -24,11 +25,14 @@ export default {
         return {}
       }
     }
+  },
+  methods: {
+    detailImgLoad() {
+      this.$emit('detailImgLoad');
+    },
+   
   }
-  // data() {
-
-  // }
-}
+  }
 </script>
 
 <style>

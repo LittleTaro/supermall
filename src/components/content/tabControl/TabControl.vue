@@ -18,7 +18,7 @@ export default {
       default() {
         return [];
       }
-    }
+    },
   },
   data(){
     return {
@@ -28,14 +28,14 @@ export default {
   methods: {
     itemClick(index){
       this.currentIndex = index;
-      this.$emit('tabClick',this.currentIndex);
+      this.$emit('tabClick', this.currentIndex);
   },
 }
 }
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/css/base.less";
+@import "~assets/css/base.less";
 
   .tab-control {
     display: flex;
